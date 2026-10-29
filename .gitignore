@@ -1,0 +1,11 @@
+.env
+*.env
+*.env.local
+
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.dbg
+
+node_modules/
