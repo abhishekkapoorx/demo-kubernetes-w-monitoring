@@ -12,6 +12,11 @@ try {
 }
 
 if ($clusters -contains $clusterName) {
+    helm uninstall monitoring --namespace monitoring --ignore-not-found
+    if ($LASTEXITCODE -ne 0) {
+        throw "helm failed with exit code $LASTEXITCODE"
+    }
+
     kubectl delete -f Kubernetes --ignore-not-found
     if ($LASTEXITCODE -ne 0) {
         throw "kubectl failed with exit code $LASTEXITCODE"

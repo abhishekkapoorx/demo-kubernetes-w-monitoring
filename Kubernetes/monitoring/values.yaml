@@ -1,0 +1,12 @@
+grafana:
+  adminPassword: "adminPass124"   # for learning only; use a Secret in real setups
+
+prometheus:
+  prometheusSpec:
+    retention: 7d
+    # Lets Prometheus pick up ServiceMonitors from any Helm release, not just this one
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+
+alertmanager:
+  enabled: true

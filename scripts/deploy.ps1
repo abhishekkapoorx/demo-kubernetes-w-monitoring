@@ -39,6 +39,10 @@ foreach ($image in $images) {
 }
 
 Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes")
+& "$PSScriptRoot\install-monitoring.ps1"
+if ($LASTEXITCODE -ne 0) {
+    throw "Monitoring installation failed with exit code $LASTEXITCODE"
+}
 Invoke-Checked "kubectl" @("rollout", "status", "deployment/users", "--timeout=120s")
 Invoke-Checked "kubectl" @("rollout", "status", "deployment/orders", "--timeout=120s")
 Invoke-Checked "kubectl" @("rollout", "status", "deployment/frontend", "--timeout=120s")
