@@ -39,6 +39,10 @@ foreach ($image in $images) {
 }
 
 Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes")
+& "$PSScriptRoot\install-ingress.ps1"
+if ($LASTEXITCODE -ne 0) {
+    throw "Ingress installation failed with exit code $LASTEXITCODE"
+}
 & "$PSScriptRoot\install-monitoring.ps1"
 if ($LASTEXITCODE -ne 0) {
     throw "Monitoring installation failed with exit code $LASTEXITCODE"

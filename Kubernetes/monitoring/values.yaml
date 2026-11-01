@@ -1,12 +1,21 @@
 grafana:
   adminPassword: "adminPass124"   # for learning only; use a Secret in real setups
+  grafana.ini:
+    server:
+      root_url: "%(protocol)s://%(domain)s/grafana/"
+      serve_from_sub_path: true
 
 prometheus:
   prometheusSpec:
     retention: 7d
+    externalUrl: http://localhost:8080/prometheus
+    routePrefix: /prometheus
     # Lets Prometheus pick up ServiceMonitors from any Helm release, not just this one
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
 
 alertmanager:
   enabled: true
+  alertmanagerSpec:
+    externalUrl: http://localhost:8080/alertmanager
+    routePrefix: /alertmanager

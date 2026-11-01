@@ -12,6 +12,11 @@ try {
 }
 
 if ($clusters -contains $clusterName) {
+    helm uninstall ingress-nginx --namespace ingress-nginx --ignore-not-found
+    if ($LASTEXITCODE -ne 0) {
+        throw "helm failed with exit code $LASTEXITCODE"
+    }
+
     helm uninstall monitoring --namespace monitoring --ignore-not-found
     if ($LASTEXITCODE -ne 0) {
         throw "helm failed with exit code $LASTEXITCODE"
