@@ -11,7 +11,7 @@
 From the repository root in PowerShell:
 
 ```powershell
-.\scripts\deploy.ps1
+\.\demo-apps\kubernetes-demo\scripts\deploy.ps1
 kubectl get pods
 kubectl port-forward service/frontend 8000:8000
 ```
@@ -21,7 +21,7 @@ Open `http://localhost:8000` after port-forwarding.
 Install the monitoring stack with:
 
 ```powershell
-.\scripts\install-monitoring.ps1
+\.\demo-apps\kubernetes-demo\scripts\install-monitoring.ps1
 ```
 
 ## Run incident scenarios
