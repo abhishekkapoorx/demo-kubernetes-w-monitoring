@@ -36,6 +36,9 @@ Invoke-Checked "helm" @(
     "10m"
 )
 Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes\monitoring\ingress.yaml")
+Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes\monitoring\servicemonitor.yaml")
+Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes\monitoring\observability.yaml")
+Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes\monitoring\dashboard.yaml")
 
 Write-Host "Monitoring stack installed successfully in namespace '$namespace'." -ForegroundColor Green
 helm status $releaseName --namespace $namespace

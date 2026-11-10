@@ -38,7 +38,10 @@ foreach ($image in $images) {
     Invoke-Checked "kind" @("load", "docker-image", $image, "--name", $clusterName)
 }
 
-Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes")
+Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes\users.yaml")
+Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes\orders.yaml")
+Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes\frontend.yaml")
+Invoke-Checked "kubectl" @("apply", "-f", "Kubernetes\ingress.yaml")
 & "$PSScriptRoot\install-ingress.ps1"
 if ($LASTEXITCODE -ne 0) {
     throw "Ingress installation failed with exit code $LASTEXITCODE"
