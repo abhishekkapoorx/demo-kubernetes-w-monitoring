@@ -1,0 +1,17 @@
+id: 07-pending-unschedulable-resources
+title: Cart service replacement requests impossible CPU
+root_cause_category: scheduling
+root_cause_summary: the new cartservice pod requests 1,000 CPU units and cannot be scheduled on the kind workers.
+affected_resource: {kind: Deployment, name: cartservice, namespace: boutique}
+symptom_resource: {kind: Pod, name: cartservice-<replicaset-hash>-<pod-suffix>, namespace: boutique}
+change_introduced: spec.template.spec.containers[name=server].resources.requests.cpu changed to 1000
+must_cite_evidence:
+  - source: kubernetes.pod_status
+    signal: replacement cartservice pod phase=Pending
+  - source: kubernetes.events
+    signal: FailedScheduling due to insufficient cpu
+  - source: kubernetes.rollout_history
+    signal: cartservice pod template requests cpu=1000
+acceptable_hypothesis_keywords: [pending, failedscheduling, insufficient cpu, unschedulable]
+red_herrings: [old cartservice ReplicaSet serving, redis-cart health]
+revert: scenarios/07-pending-unschedulable-resources/revert.sh

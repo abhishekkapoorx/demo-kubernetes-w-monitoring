@@ -1,0 +1,17 @@
+id: 02-oomkilled-low-memory-limit
+title: Recommendation service memory limit exhaustion
+root_cause_category: resource_limit
+root_cause_summary: recommendationservice is constrained to a 16Mi memory limit and is killed by the kernel.
+affected_resource: {kind: Deployment, name: recommendationservice, namespace: boutique}
+symptom_resource: {kind: Pod, name: recommendationservice-<replicaset-hash>-<pod-suffix>, namespace: boutique}
+change_introduced: spec.template.spec.containers[name=server].resources.limits.memory changed to 16Mi
+must_cite_evidence:
+  - source: kubernetes.pod_status
+    signal: lastState.terminated.reason=OOMKilled
+  - source: kubernetes.events
+    signal: container killed because it exceeded its memory limit
+  - source: kubernetes.rollout_history
+    signal: recommendationservice pod template memory limit is 16Mi
+acceptable_hypothesis_keywords: [oomkilled, out of memory, memory limit, recommendationservice]
+red_herrings: [normal CPU usage, healthy productcatalogservice dependency]
+revert: scenarios/02-oomkilled-low-memory-limit/revert.sh

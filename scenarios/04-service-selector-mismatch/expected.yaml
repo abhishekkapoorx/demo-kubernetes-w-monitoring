@@ -1,0 +1,17 @@
+id: 04-service-selector-mismatch
+title: Product catalog Service selects no pods
+root_cause_category: service_misrouting
+root_cause_summary: productcatalogservice Service selector no longer matches the running product catalog pods.
+affected_resource: {kind: Service, name: productcatalogservice, namespace: boutique}
+symptom_resource: {kind: Endpoints, name: productcatalogservice, namespace: boutique}
+change_introduced: spec.selector.app changed to scenario-no-such-pod
+must_cite_evidence:
+  - source: kubernetes.endpoints
+    signal: productcatalogservice has zero ready endpoints
+  - source: kubernetes.pod_status
+    signal: productcatalogservice pods are Running and Ready
+  - source: kubernetes.rollout_history
+    signal: Service selector differs from pod label app=productcatalogservice
+acceptable_hypothesis_keywords: [zero endpoints, selector mismatch, service selector, productcatalogservice]
+red_herrings: [productcatalogservice pod readiness, deployment replica count]
+revert: scenarios/04-service-selector-mismatch/revert.sh

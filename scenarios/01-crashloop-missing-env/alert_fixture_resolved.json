@@ -1,0 +1,40 @@
+{
+    "version": "4",
+    "groupKey": "{}:{alertname=KubePodCrashLooping,namespace=boutique}",
+    "status": "resolved",
+    "receiver": "incident-agent",
+    "groupLabels": {
+        "alertname": "KubePodCrashLooping",
+        "namespace": "boutique"
+    },
+    "commonLabels": {
+        "alertname": "KubePodCrashLooping",
+        "namespace": "boutique",
+        "severity": "critical"
+    },
+    "commonAnnotations": {
+        "summary": "checkoutservice crash loop resolved",
+        "description": "checkoutservice pod is healthy again."
+    },
+    "externalURL": "http://alertmanager.local",
+    "alerts": [
+        {
+            "status": "resolved",
+            "labels": {
+                "alertname": "KubePodCrashLooping",
+                "namespace": "boutique",
+                "pod": "checkoutservice-7d9f8c6b7d-x4m2p",
+                "deployment": "checkoutservice",
+                "severity": "critical"
+            },
+            "annotations": {
+                "summary": "checkoutservice CrashLoopBackOff",
+                "description": "Pod checkoutservice-7d9f8c6b7d-x4m2p recovered."
+            },
+            "startsAt": "2026-11-10T12:00:00Z",
+            "endsAt": "2026-11-10T12:05:00Z",
+            "generatorURL": "http://prometheus.local/graph?g0.expr=up",
+            "fingerprint": "01crashloop0001"
+        }
+    ]
+}

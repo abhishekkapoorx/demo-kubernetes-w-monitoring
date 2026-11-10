@@ -1,0 +1,17 @@
+id: 05-latency-extra-latency-env
+title: Product catalog injected five-second latency
+root_cause_category: dependency_latency
+root_cause_summary: productcatalogservice adds a five-second delay to product RPCs through EXTRA_LATENCY.
+affected_resource: {kind: Deployment, name: productcatalogservice, namespace: boutique}
+symptom_resource: {kind: Deployment, name: frontend, namespace: boutique}
+change_introduced: spec.template.spec.containers[name=server].env EXTRA_LATENCY=5s
+must_cite_evidence:
+  - source: kubernetes.rollout_history
+    signal: productcatalogservice pod template contains EXTRA_LATENCY=5s
+  - source: kubernetes.logs
+    signal: extra latency enabled duration 5s
+  - source: kubernetes.pod_status
+    signal: productcatalogservice replacement pod is Ready despite slower RPCs
+acceptable_hypothesis_keywords: [extra latency, 5s, productcatalogservice, slow dependency]
+red_herrings: [frontend readiness, image pull status]
+revert: scenarios/05-latency-extra-latency-env/revert.sh

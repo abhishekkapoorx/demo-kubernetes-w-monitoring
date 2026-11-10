@@ -1,0 +1,39 @@
+{
+  "apiVersion": "v1",
+  "kind": "Service",
+  "metadata": {
+    "annotations": {
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"currencyservice\",\"skaffold.dev/run-id\":\"4ea25f3d-013f-4043-81e6-8ed85b4b1b62\"},\"name\":\"currencyservice\",\"namespace\":\"default\"},\"spec\":{\"ports\":[{\"name\":\"grpc\",\"port\":7000,\"targetPort\":7000}],\"selector\":{\"app\":\"currencyservice\"},\"type\":\"ClusterIP\"}}\n"
+    },
+    "labels": {
+      "app": "currencyservice",
+      "skaffold.dev/run-id": "4ea25f3d-013f-4043-81e6-8ed85b4b1b62"
+    },
+    "name": "currencyservice",
+    "namespace": "default"
+  },
+  "spec": {
+    "clusterIP": "10.96.249.225",
+    "clusterIPs": [
+      "10.96.249.225"
+    ],
+    "internalTrafficPolicy": "Cluster",
+    "ipFamilies": [
+      "IPv4"
+    ],
+    "ipFamilyPolicy": "SingleStack",
+    "ports": [
+      {
+        "name": "grpc",
+        "port": 7000,
+        "protocol": "TCP",
+        "targetPort": 7000
+      }
+    ],
+    "selector": {
+      "app": "currencyservice"
+    },
+    "sessionAffinity": "None",
+    "type": "ClusterIP"
+  }
+}

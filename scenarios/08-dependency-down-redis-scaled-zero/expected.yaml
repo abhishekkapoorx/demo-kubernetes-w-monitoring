@@ -1,0 +1,17 @@
+id: 08-dependency-down-redis-scaled-zero
+title: Redis cart dependency scaled to zero
+root_cause_category: dependency_down
+root_cause_summary: redis-cart has been scaled to zero, leaving cartservice without its required Redis dependency.
+affected_resource: {kind: Deployment, name: redis-cart, namespace: boutique}
+symptom_resource: {kind: Pod, name: cartservice-<replicaset-hash>-<pod-suffix>, namespace: boutique}
+change_introduced: spec.replicas of redis-cart changed to 0
+must_cite_evidence:
+  - source: kubernetes.pod_status
+    signal: redis-cart has zero running pods and cartservice reports dependency failures
+  - source: kubernetes.endpoints
+    signal: redis-cart has zero endpoints
+  - source: kubernetes.logs
+    signal: cartservice cannot connect to redis-cart:6379
+acceptable_hypothesis_keywords: [redis down, dependency down, redis-cart, connection refused, cartservice]
+red_herrings: [cartservice image, cartservice Service selector]
+revert: scenarios/08-dependency-down-redis-scaled-zero/revert.sh

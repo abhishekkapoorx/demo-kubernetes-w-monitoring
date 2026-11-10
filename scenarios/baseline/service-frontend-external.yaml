@@ -1,0 +1,42 @@
+{
+  "apiVersion": "v1",
+  "kind": "Service",
+  "metadata": {
+    "annotations": {
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"frontend\",\"skaffold.dev/run-id\":\"4ea25f3d-013f-4043-81e6-8ed85b4b1b62\"},\"name\":\"frontend-external\",\"namespace\":\"default\"},\"spec\":{\"ports\":[{\"name\":\"http\",\"port\":80,\"targetPort\":8080}],\"selector\":{\"app\":\"frontend\"},\"type\":\"LoadBalancer\"}}\n"
+    },
+    "labels": {
+      "app": "frontend",
+      "skaffold.dev/run-id": "4ea25f3d-013f-4043-81e6-8ed85b4b1b62"
+    },
+    "name": "frontend-external",
+    "namespace": "default"
+  },
+  "spec": {
+    "allocateLoadBalancerNodePorts": true,
+    "clusterIP": "10.96.208.21",
+    "clusterIPs": [
+      "10.96.208.21"
+    ],
+    "externalTrafficPolicy": "Cluster",
+    "internalTrafficPolicy": "Cluster",
+    "ipFamilies": [
+      "IPv4"
+    ],
+    "ipFamilyPolicy": "SingleStack",
+    "ports": [
+      {
+        "name": "http",
+        "nodePort": 30664,
+        "port": 80,
+        "protocol": "TCP",
+        "targetPort": 8080
+      }
+    ],
+    "selector": {
+      "app": "frontend"
+    },
+    "sessionAffinity": "None",
+    "type": "LoadBalancer"
+  }
+}

@@ -1,0 +1,17 @@
+id: 03-imagepullbackoff-bad-tag
+title: Currency service nonexistent image tag
+root_cause_category: image_pull
+root_cause_summary: currencyservice references a nonexistent image tag, so Kubernetes cannot pull the replacement image.
+affected_resource: {kind: Deployment, name: currencyservice, namespace: boutique}
+symptom_resource: {kind: Pod, name: currencyservice-<replicaset-hash>-<pod-suffix>, namespace: boutique}
+change_introduced: spec.template.spec.containers[name=server].image changed to currencyservice:scenario-nonexistent-tag-20261110
+must_cite_evidence:
+  - source: kubernetes.pod_status
+    signal: state.waiting.reason=ImagePullBackOff or ErrImagePull
+  - source: kubernetes.events
+    signal: failed to pull image or manifest unknown
+  - source: kubernetes.rollout_history
+    signal: currencyservice pod template references the nonexistent tag
+acceptable_hypothesis_keywords: [imagepullbackoff, errimagepull, bad image tag, nonexistent tag, currencyservice]
+red_herrings: [currencyservice Service selector, healthy old ReplicaSet]
+revert: scenarios/03-imagepullbackoff-bad-tag/revert.sh

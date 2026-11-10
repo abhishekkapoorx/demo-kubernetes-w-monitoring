@@ -1,0 +1,140 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "annotations": {
+      "deployment.kubernetes.io/revision": "1",
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"checkoutservice\",\"skaffold.dev/run-id\":\"4ea25f3d-013f-4043-81e6-8ed85b4b1b62\"},\"name\":\"checkoutservice\",\"namespace\":\"default\"},\"spec\":{\"selector\":{\"matchLabels\":{\"app\":\"checkoutservice\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"checkoutservice\",\"skaffold.dev/run-id\":\"4ea25f3d-013f-4043-81e6-8ed85b4b1b62\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"PORT\",\"value\":\"5050\"},{\"name\":\"PRODUCT_CATALOG_SERVICE_ADDR\",\"value\":\"productcatalogservice:3550\"},{\"name\":\"SHIPPING_SERVICE_ADDR\",\"value\":\"shippingservice:50051\"},{\"name\":\"PAYMENT_SERVICE_ADDR\",\"value\":\"paymentservice:50051\"},{\"name\":\"EMAIL_SERVICE_ADDR\",\"value\":\"emailservice:5000\"},{\"name\":\"CURRENCY_SERVICE_ADDR\",\"value\":\"currencyservice:7000\"},{\"name\":\"CART_SERVICE_ADDR\",\"value\":\"cartservice:7070\"}],\"image\":\"checkoutservice:ba0fa69976bcfc059cd4d8f6803f50e2e1600eb05c30a7f10040736f521a21d4\",\"livenessProbe\":{\"grpc\":{\"port\":5050}},\"name\":\"server\",\"ports\":[{\"containerPort\":5050}],\"readinessProbe\":{\"grpc\":{\"port\":5050}},\"resources\":{\"limits\":{\"cpu\":\"200m\",\"memory\":\"128Mi\"},\"requests\":{\"cpu\":\"100m\",\"memory\":\"64Mi\"}},\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"privileged\":false,\"readOnlyRootFilesystem\":true}}],\"securityContext\":{\"fsGroup\":1000,\"runAsGroup\":1000,\"runAsNonRoot\":true,\"runAsUser\":1000},\"serviceAccountName\":\"checkoutservice\"}}}}\n"
+    },
+    "labels": {
+      "app": "checkoutservice",
+      "skaffold.dev/run-id": "4ea25f3d-013f-4043-81e6-8ed85b4b1b62"
+    },
+    "name": "checkoutservice",
+    "namespace": "default"
+  },
+  "spec": {
+    "progressDeadlineSeconds": 600,
+    "replicas": 1,
+    "revisionHistoryLimit": 10,
+    "selector": {
+      "matchLabels": {
+        "app": "checkoutservice"
+      }
+    },
+    "strategy": {
+      "rollingUpdate": {
+        "maxSurge": "25%",
+        "maxUnavailable": "25%"
+      },
+      "type": "RollingUpdate"
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "checkoutservice",
+          "skaffold.dev/run-id": "4ea25f3d-013f-4043-81e6-8ed85b4b1b62"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "PORT",
+                "value": "5050"
+              },
+              {
+                "name": "PRODUCT_CATALOG_SERVICE_ADDR",
+                "value": "productcatalogservice:3550"
+              },
+              {
+                "name": "SHIPPING_SERVICE_ADDR",
+                "value": "shippingservice:50051"
+              },
+              {
+                "name": "PAYMENT_SERVICE_ADDR",
+                "value": "paymentservice:50051"
+              },
+              {
+                "name": "EMAIL_SERVICE_ADDR",
+                "value": "emailservice:5000"
+              },
+              {
+                "name": "CURRENCY_SERVICE_ADDR",
+                "value": "currencyservice:7000"
+              },
+              {
+                "name": "CART_SERVICE_ADDR",
+                "value": "cartservice:7070"
+              }
+            ],
+            "image": "checkoutservice:ba0fa69976bcfc059cd4d8f6803f50e2e1600eb05c30a7f10040736f521a21d4",
+            "imagePullPolicy": "IfNotPresent",
+            "livenessProbe": {
+              "failureThreshold": 3,
+              "grpc": {
+                "port": 5050,
+                "service": ""
+              },
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "name": "server",
+            "ports": [
+              {
+                "containerPort": 5050,
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "grpc": {
+                "port": 5050,
+                "service": ""
+              },
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "resources": {
+              "limits": {
+                "cpu": "200m",
+                "memory": "128Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "privileged": false,
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File"
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 1000,
+          "runAsGroup": 1000,
+          "runAsNonRoot": true,
+          "runAsUser": 1000
+        },
+        "serviceAccount": "checkoutservice",
+        "serviceAccountName": "checkoutservice",
+        "terminationGracePeriodSeconds": 30
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+id: 01-crashloop-missing-env
+title: Checkout service missing product catalog address
+root_cause_category: bad_config
+root_cause_summary: checkoutservice is missing PRODUCT_CATALOG_SERVICE_ADDR and panics during startup.
+affected_resource: {kind: Deployment, name: checkoutservice, namespace: boutique}
+symptom_resource: {kind: Pod, name: checkoutservice-<replicaset-hash>-<pod-suffix>, namespace: boutique}
+change_introduced: spec.template.spec.containers[name=server].env removed PRODUCT_CATALOG_SERVICE_ADDR
+must_cite_evidence:
+  - source: kubernetes.pod_status
+    signal: lastState.terminated.reason=Error or CrashLoopBackOff
+  - source: kubernetes.logs
+    signal: missing required PRODUCT_CATALOG_SERVICE_ADDR environment variable
+  - source: kubernetes.rollout_history
+    signal: checkoutservice pod template no longer contains PRODUCT_CATALOG_SERVICE_ADDR
+acceptable_hypothesis_keywords: [missing env, product catalog service address, bad config, checkoutservice panic]
+red_herrings: [healthy productcatalogservice pods, unrelated frontend restarts]
+revert: scenarios/01-crashloop-missing-env/revert.sh

@@ -1,0 +1,132 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "annotations": {
+      "deployment.kubernetes.io/revision": "1",
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"loadgenerator\",\"skaffold.dev/run-id\":\"4ea25f3d-013f-4043-81e6-8ed85b4b1b62\"},\"name\":\"loadgenerator\",\"namespace\":\"default\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"loadgenerator\"}},\"template\":{\"metadata\":{\"annotations\":{\"sidecar.istio.io/rewriteAppHTTPProbers\":\"true\"},\"labels\":{\"app\":\"loadgenerator\",\"skaffold.dev/run-id\":\"4ea25f3d-013f-4043-81e6-8ed85b4b1b62\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"FRONTEND_ADDR\",\"value\":\"frontend:80\"},{\"name\":\"USERS\",\"value\":\"10\"},{\"name\":\"RATE\",\"value\":\"1\"}],\"image\":\"loadgenerator:9fcaa2c1f817c3d4173f9ab6a42ff885a2bcf960a94e1665323b25e29bd365aa\",\"name\":\"main\",\"resources\":{\"limits\":{\"cpu\":\"500m\",\"memory\":\"512Mi\"},\"requests\":{\"cpu\":\"300m\",\"memory\":\"256Mi\"}},\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"privileged\":false,\"readOnlyRootFilesystem\":true}}],\"initContainers\":[{\"command\":[\"/bin/sh\",\"-exc\",\"MAX_RETRIES=12\\nRETRY_INTERVAL=10\\nfor i in $(seq 1 $MAX_RETRIES); do\\n  echo \\\"Attempt $i: Pinging frontend: ${FRONTEND_ADDR}...\\\"\\n  STATUSCODE=$(wget --server-response http://${FRONTEND_ADDR} 2\\u003e\\u00261 | awk '/^  HTTP/{print $2}')\\n  if [ $STATUSCODE -eq 200 ]; then\\n      echo \\\"Frontend is reachable.\\\"\\n      exit 0\\n  fi\\n  echo \\\"Error: Could not reach frontend - Status code: ${STATUSCODE}\\\"\\n  sleep $RETRY_INTERVAL\\ndone\\necho \\\"Failed to reach frontend after $MAX_RETRIES attempts.\\\"\\nexit 1\\n\"],\"env\":[{\"name\":\"FRONTEND_ADDR\",\"value\":\"frontend:80\"}],\"image\":\"busybox:1.38.0@sha256:dc2d74b28e4cf8984fa52af1f39bc7c3d9c73760b41a74d629f5d11b1ab28616\",\"name\":\"frontend-check\",\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"privileged\":false,\"readOnlyRootFilesystem\":true}}],\"restartPolicy\":\"Always\",\"securityContext\":{\"fsGroup\":1000,\"runAsGroup\":1000,\"runAsNonRoot\":true,\"runAsUser\":1000},\"serviceAccountName\":\"loadgenerator\",\"terminationGracePeriodSeconds\":5}}}}\n"
+    },
+    "labels": {
+      "app": "loadgenerator",
+      "skaffold.dev/run-id": "4ea25f3d-013f-4043-81e6-8ed85b4b1b62"
+    },
+    "name": "loadgenerator",
+    "namespace": "default"
+  },
+  "spec": {
+    "progressDeadlineSeconds": 600,
+    "replicas": 1,
+    "revisionHistoryLimit": 10,
+    "selector": {
+      "matchLabels": {
+        "app": "loadgenerator"
+      }
+    },
+    "strategy": {
+      "rollingUpdate": {
+        "maxSurge": "25%",
+        "maxUnavailable": "25%"
+      },
+      "type": "RollingUpdate"
+    },
+    "template": {
+      "metadata": {
+        "annotations": {
+          "sidecar.istio.io/rewriteAppHTTPProbers": "true"
+        },
+        "labels": {
+          "app": "loadgenerator",
+          "skaffold.dev/run-id": "4ea25f3d-013f-4043-81e6-8ed85b4b1b62"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "FRONTEND_ADDR",
+                "value": "frontend:80"
+              },
+              {
+                "name": "USERS",
+                "value": "10"
+              },
+              {
+                "name": "RATE",
+                "value": "1"
+              }
+            ],
+            "image": "loadgenerator:9fcaa2c1f817c3d4173f9ab6a42ff885a2bcf960a94e1665323b25e29bd365aa",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "main",
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "300m",
+                "memory": "256Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "privileged": false,
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File"
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "initContainers": [
+          {
+            "command": [
+              "/bin/sh",
+              "-exc",
+              "MAX_RETRIES=12\nRETRY_INTERVAL=10\nfor i in $(seq 1 $MAX_RETRIES); do\n  echo \"Attempt $i: Pinging frontend: ${FRONTEND_ADDR}...\"\n  STATUSCODE=$(wget --server-response http://${FRONTEND_ADDR} 2>&1 | awk '/^  HTTP/{print $2}')\n  if [ $STATUSCODE -eq 200 ]; then\n      echo \"Frontend is reachable.\"\n      exit 0\n  fi\n  echo \"Error: Could not reach frontend - Status code: ${STATUSCODE}\"\n  sleep $RETRY_INTERVAL\ndone\necho \"Failed to reach frontend after $MAX_RETRIES attempts.\"\nexit 1\n"
+            ],
+            "env": [
+              {
+                "name": "FRONTEND_ADDR",
+                "value": "frontend:80"
+              }
+            ],
+            "image": "busybox:1.38.0@sha256:dc2d74b28e4cf8984fa52af1f39bc7c3d9c73760b41a74d629f5d11b1ab28616",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "frontend-check",
+            "resources": {},
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "privileged": false,
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File"
+          }
+        ],
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 1000,
+          "runAsGroup": 1000,
+          "runAsNonRoot": true,
+          "runAsUser": 1000
+        },
+        "serviceAccount": "loadgenerator",
+        "serviceAccountName": "loadgenerator",
+        "terminationGracePeriodSeconds": 5
+      }
+    }
+  }
+}
