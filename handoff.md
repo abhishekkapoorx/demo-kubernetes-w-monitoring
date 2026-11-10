@@ -42,3 +42,9 @@ Existing code: I may already have a server plus a Python Textual CLI with browse
 - Week 4: replay/eval runner (top-1/top-3 hit rate, grounded-claim rate, time, cost; ~3 runs per scenario), baseline comparison (raw kubectl output in a chat model, or HolmesGPT), docs, architecture diagram, demo video, report.
 Cut order if behind: Prometheus metrics, pgvector memory, Slack feedback buttons, CLI/web view, multi-model support. Never cut: evidence citation, the verifier, the replay eval.
 
+## Current implementation
+- The repository is now `kubernetes-incident-investigation-lab` and includes a small Python demo stack with Docker build/deploy scripts, Prometheus metrics, OpenTelemetry traces, Grafana dashboards, and Tempo.
+- Online Boutique is tracked at `demo-apps/microservices-demo` as a submodule. Its local checkout still has separate unpushed edits.
+- `scenarios/` contains eight reversible Online Boutique failure scenarios, sanitized baselines, Alertmanager fixtures, ground truth, an interactive runner, and a full smoke test. Set `NAMESPACE` to the deployed namespace; the current local cluster uses `default`.
+- Root usage instructions are in `README.md`. Before relying on benchmark timings, run `snapshot` against a healthy cluster and then `verify_all.sh`.
+
